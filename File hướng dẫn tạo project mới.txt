@@ -1,0 +1,117 @@
+*Cài các gói
+Bước 1: Mở Terminal lên
+Bước 2: Cài môi trường ảo (Có thể cài thủ công)
+	(Chạy theo thứ tự tên terminal)
+	+ pip install virualenv venv
+	+ virtualenv venv
+Bước 3: Cài Flask
+	+ pip install Flask
+Lưu ý: Nếu chưa ở terminal chưa có (venv) thì phải khởi động lại PyCharm
+
+*Tạo các folder
+-Tạo 1 Python Package tên "app" ở project
+-Trong package tiếp tục tạo 3 folder là "data" (chứa các file tương tác CSDL), "static" (chứa các file css)
+và templates (chứa các file html)
+
+*Cài Angular
+Bước 1: Mở Terminal lên và cài
+	+ npm install -g @angular/cli
+	+ ng new templates --style css
+Bước 2: Sau đó mở Visual Code để cài đặt 1 số thứ
+	+ Visual Code -> File -> Open Folder -> Chọn file templates của project
+Bước 3: Thêm code để sử dụng BASE_URL Inject
+	+src -> main.ts -> Thay thế toàn bộ bằng dòng code bên dưới
+	
+import { enableProdMode } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
+import { AppModule } from './app/app.module';
+import { environment } from './environments/environment';
+
+//Thêm function getBaseUrl và providers để sử dụng Inject BASE_URL
+export function getBaseUrl() {
+  return document.getElementsByTagName('base')[0].href;
+}
+
+const providers = [
+  { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] }
+];
+
+if (environment.production) {
+  enableProdMode();
+}
+
+platformBrowserDynamic(providers).bootstrapModule(AppModule)
+  .catch(err => console.error(err));
+
+
+Bước 4: Sửa file app.module.ts
+	+src -> app -> app.module.ts -> Thay thế toàn bộ bằng dòng code bên dưới
+
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'; //Import vào để sử dụng Http
+import { RouterModule } from '@angular/router';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    RouterModule.forRoot([
+    ])
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+Bước 5: Tạo thử file component
+	+ src -> app ->right click -> new folder (đặt tên là home)
+	+ home -> right click -> new file (đặt tên là home.component.html)
+	+ home -> right click -> new file (đặt tên là home.component.ts)
+
+--Phần code chép vào file home.component.ts
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+    selector: 'app-home-data',
+    templateUrl: './home.component.html'
+})
+
+export class Home{
+    constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    
+    }
+}   
+
+--Phần code chép vào file home.component.html
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <h1>Welcome go to my Website</h1>
+</body>
+
+</html>
+
+*Tạo các file còn lại
+--Tạo file .gitignore
+	+ right click project -> file -> Đặt tên .gitignore -> chọn .gitignore -> Chép hết text bên dưới vào
+venv
+*.pyc
+.idea
