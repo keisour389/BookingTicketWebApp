@@ -1,10 +1,24 @@
-from sqlalchemy import Column, Integer, String, Float, Date, DateTime, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Date, DateTime, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from app import db
+from app import db, admin
+from flask_admin.contrib.sqla import ModelView
+from flask_login import UserMixin
 
-#class ở PY đặt tên theo chuẩn Lạc Đà Hoa
-#Kế thừa db.Model để hiểu đây là 1 table
-#Lớp này sẽ ánh xạ xuống database để tạo bảng theo tên class
+
+class User(db.Model, UserMixin):
+    __tablename__ = "user"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(50), nullable=False)
+    active = Column(Boolean, default=True)
+    username = Column(String(50), nullable=False)
+    password = Column(String(50), nullable=False)
+    def __str__(self):
+        return self.name
+
+
+# class ở PY đặt tên theo chuẩn Lạc Đà Hoa
+# Kế thừa db.Model để hiểu đây là 1 table
+# Lớp này sẽ ánh xạ xuống database để tạo bảng theo tên class
 class Airport(db.Model):
     __tablename__ = "airport"
 
@@ -14,6 +28,7 @@ class Airport(db.Model):
     airportType = Column(String(50), nullable=False)
     address = Column(String(255), nullable=False)
     note = Column(String(255), nullable=True)
+
 
 class Customer(db.Model):
     __tablename__ = "customer"
@@ -29,6 +44,7 @@ class Customer(db.Model):
     address = Column(String(255), nullable=False)
     note = Column(String(255), nullable=True)
 
+
 class Employee(db.Model):
     __tablename__ = "employee"
 
@@ -43,6 +59,7 @@ class Employee(db.Model):
     address = Column(String(255), nullable=False)
     note = Column(String(255), nullable=True)
 
+
 class FlightSchedules(db.Model):
     __tablename__ = "flightschedules"
 
@@ -52,28 +69,15 @@ class FlightSchedules(db.Model):
     firstClassAmount = Column(Integer, nullable=False)
     secondClassAmount = Column(Integer, nullable=False)
     note = Column(String(255), nullable=True)
-    #Tạo khóa ngoại
+    # Tạo khóa ngoại
     airportToTakeOff = Column(String(10), ForeignKey(Airport.airportID), nullable=False)
     airportToLanding = Column(String(10), ForeignKey(Airport.airportID), nullable=False)
+
 
 class Ticket(db.Model):
     __tablename__ = "ticket"
 
-    ticketID = Column(Integer, primary_key=True, autoincrement=True) #Khóa chính tự động tăng
-    identityCard = Column(String(15), nullable=False)
-    phoneNumber = Column(String(15), nullable=False)
-    ticketClass = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
-    note = Column(String(255), nullable=True)
-    #Tạo khóa ngoại
-    flightSchedulesID = Column(String(30), ForeignKey(FlightSchedules.flightSchedulesID), nullable=False)
-    customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
-    employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=False)
-
-class BookingDetails(db.Model):
-    __tablename__ = "bookingdetails"
-
-    bookingID = Column(Integer, primary_key=True, autoincrement=True) #Khóa chính tự động tăng
+    ticketID = Column(Integer, primary_key=True, autoincrement=True)  # Khóa chính tự động tăng
     identityCard = Column(String(15), nullable=False)
     phoneNumber = Column(String(15), nullable=False)
     ticketClass = Column(Integer, nullable=False)
@@ -84,17 +88,41 @@ class BookingDetails(db.Model):
     customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
     employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=False)
 
-#Bảng quan hệ nhiều - nhiều của sân bay và lịch chuyến bay
+
+class BookingDetails(db.Model):
+    __tablename__ = "bookingdetails"
+
+    bookingID = Column(Integer, primary_key=True, autoincrement=True)  # Khóa chính tự động tăng
+    identityCard = Column(String(15), nullable=False)
+    phoneNumber = Column(String(15), nullable=False)
+    ticketClass = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
+    note = Column(String(255), nullable=True)
+    # Tạo khóa ngoại
+    flightSchedulesID = Column(String(30), ForeignKey(FlightSchedules.flightSchedulesID), nullable=False)
+    customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
+    employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=False)
+
+
+# Bảng quan hệ nhiều - nhiều của sân bay và lịch chuyến bay
 class IntermediaryAirport(db.Model):
     __tablename__ = "intermediaryairport"
 
-    #Khóa chính và khóa ngoại
+    # Khóa chính và khóa ngoại
     flightSchedulesID = Column(String(30), ForeignKey(FlightSchedules.flightSchedulesID), primary_key=True)
     airportID = Column(String(10), ForeignKey(Airport.airportID), primary_key=True)
 
     totalTimeToStop = Column(Float, nullable=False)
     note = Column(String(255), nullable=True)
 
-#Câu lệnh tạo bảng dưới database
+
+admin.add_view(ModelView(Airport, db.session))
+admin.add_view(ModelView(Customer, db.session))
+admin.add_view(ModelView(Employee, db.session))
+admin.add_view(ModelView(FlightSchedules, db.session))
+admin.add_view(ModelView(BookingDetails, db.session))
+admin.add_view(ModelView(IntermediaryAirport, db.session))
+
+# Câu lệnh tạo bảng dưới database
 if __name__ == "__main__":
-     db.create_all()
+    db.create_all()

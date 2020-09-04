@@ -1,10 +1,12 @@
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, redirect
 from flask_cors import CORS, cross_origin
-from app import app
-from app.BLL import EmployeeSvc
-from app.Common.EmployeeReq import EmployeeReq
+from app import app, login
+from app.models.models import *
+from flask_login import login_user
+import hashlib
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
+
 
 @app.route("/")
 def index():
@@ -16,31 +18,23 @@ def test():
     return jsonify({'test': 1})
 
 
+@login.user_loader
+def user_load(user_id):
+    return User.query.get(user_id)
 
-@app.route("/create-employee", methods=['post'])
-def createEmployee():
-    # Khi post theo file Json thì phải nhận request là get_json()
 
-    data = request.get_json()
-    #Tạo đối tượng
-    req = EmployeeReq()
-    #Đọc file JSON
+@app.route("/login-admin", methods=['GET', 'POST'])
+def login_admin():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password", "")
+        user = User.query.filter(User.username == username.strip(),
+                                 User.password == password.strip()).first()
+        if user:
+            login_user(user=user)
 
-    req.userName = data["userName"]
-    req.password = data["password"]
-    req.firstName = data["firstName"]
-    req.lastName = data["lastName"]
-    req.identityCard = data["identityCard"]
-    req.phoneNumber = data["phoneNumber"]
-    req.birthDay = data["birthDay"]
-    req.gender = data["gender"]
-    req.address = data["address"]
-    req.note = data["note"]
+    return redirect("/admin")
 
-    # import pdb
-    # pdb.set_trace()
-
-    return jsonify(EmployeeSvc.CreateEmpAccount(req)) #Xử lí lỗi trước khi return
 
 if __name__ == "__main__":
-    app.run(debug=True) #MỞ chế độ debug cho development
+    app.run(debug=True)  # MỞ chế độ debug cho development

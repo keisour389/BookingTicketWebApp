@@ -4,25 +4,27 @@ from app.Common.EmployeeReq import EmployeeReq
 from flask import session
 import json
 
+
 class EmployeeRep:
     def __init__(self):
         self
+
     def createEmpAccount(self, employee: Employee):
         try:
-            db.session.add(employee) #Thêm nhân viên
-            db.session.commit() #Lưu lại
+            db.session.add(employee)  # Thêm nhân viên
+            db.session.commit()  # Lưu lại
             return True
         except:
-            return False #Tạo thất bại
+            return False  # Tạo thất bại
 
     def validateUser(self, userName: str, password: str):
         req = EmployeeReq()
         # import pdb
         # pdb.set_trace()
         result = Employee.query.filter(Employee.userName == userName.strip(),
-                                       Employee.password == password.strip()).first() #Lấy nhân viên theo username và password
+                                       Employee.password == password.strip()).first()  # Lấy nhân viên theo username và password
         db.session.commit()  # Lưu lại
-        #Gán giá trị trả về
+        # Gán giá trị trả về
         if result is None:
             # session["username"] = ""
             return {
