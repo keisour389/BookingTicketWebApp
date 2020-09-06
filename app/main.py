@@ -1,8 +1,9 @@
-from flask import render_template, jsonify, request
+from flask import render_template, jsonify, request, redirect
 from flask_cors import CORS, cross_origin
-from app import app
-from app.BLL import EmployeeSvc
-from app.Common.EmployeeReq import EmployeeReq
+from flask_login import login_user, current_user
+from app import app, login
+from app.models import * #import các model view vào sử dụng
+import hashlib
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
@@ -15,32 +16,29 @@ def index():
 def test():
     return jsonify({'test': 1})
 
+#Phải khai báo cú pháp này khi sử dụng login
+@login.user_loader
+def user_load(user_id):
+    return Employee.query.get(user_id)
 
-
-@app.route("/create-employee", methods=['post'])
-def createEmployee():
-    # Khi post theo file Json thì phải nhận request là get_json()
-
-    data = request.get_json()
-    #Tạo đối tượng
-    req = EmployeeReq()
-    #Đọc file JSON
-
-    req.userName = data["userName"]
-    req.password = data["password"]
-    req.firstName = data["firstName"]
-    req.lastName = data["lastName"]
-    req.identityCard = data["identityCard"]
-    req.phoneNumber = data["phoneNumber"]
-    req.birthDay = data["birthDay"]
-    req.gender = data["gender"]
-    req.address = data["address"]
-    req.note = data["note"]
-
-    # import pdb
-    # pdb.set_trace()
-
-    return jsonify(EmployeeSvc.CreateEmpAccount(req)) #Xử lí lỗi trước khi return
+@app.route("/login-admin", methods=["post", "get"])
+def login_admin():
+    if request.method == "POST":
+        #Lấy từ form
+        username = request.form.get("username")
+        password = request.form.get("password")
+        #Băm mật khẩu
+        password = hashlib.md5(password.strip().encode("utf-8")).hexdigest()
+        #Kiểm tra CSDL
+        emp = Employee.query.filter(Employee.userName == username,
+                                    Employee.password == password).first()
+        import pdb
+        pdb.set_trace()
+        # emp = Employee.query.filter(Employee.userName == "1",
+        #                             Employee.password == "1").first()
+        if emp:
+            login_user(user=emp) #Ghi nhận đã đăng nhập
+    return redirect("/admin")
 
 if __name__ == "__main__":
     app.run(debug=True) #MỞ chế độ debug cho development
