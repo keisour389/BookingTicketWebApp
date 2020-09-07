@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='ticket.css') }}" />
+  </head>
+
+  <body>
+    <h1>KIET'S AIRLINE</h1>
+    <h1>Thông tin vé máy bay</h1>
+    <div id="ticket" class="container">
+        <div class="form-inline">
+            <div class="block-text">
+                <label>Diem di</label>
+            </div>
+            <div class="block-text">
+                <label>Diem den</label>
+            </div>
+            <div class="block-text">
+                <label>Ngay di</label>
+            </div>
+            <div class="block-text">
+                <label>Ngay ve</label>
+            </div>
+        </div>
+        <br/>
+        <div class="form-inline">
+            <div class="block-text">
+                <label>Ho va ten</label>
+            </div>
+            <div class="block-text">
+                <label>So CMND</label>
+            </div>
+            <div class="block-text">
+                <label>Loai ve</label>
+            </div>
+            <div class="block-text">
+                <label>So ghe</label>
+            </div>
+        </div>
+        <br/>
+        <button id="xacnhan" class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Xác nhận đặt vé</button>
+    </div>
+  </body>
+</html>
+
+

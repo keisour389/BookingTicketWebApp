@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='flightlist.css') }}" />
+    <title>Home page</title>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
+        <table id="myTable">
+            <tr class="header">
+                <th style="width:5%;">STT</th>
+                <th style="width:15%;">Mã chuyến bay</th>
+                <th style="width:20%;">Sân bay đi</th>
+                <th style="width:20%;">Sân bay đến</th>
+                <th style="width:10%;">Khởi hành</th>
+                <th style="width:10%;">Thời gian</th>
+                <th style="width:10%;">Số ghế trống</th>
+                <th style="width:10%;">Số ghế đặt</th>
+            </tr>
+
+        </table>
+    </div>
+</body>
+</html>

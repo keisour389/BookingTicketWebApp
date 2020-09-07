@@ -9,7 +9,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("home/home.html")
 
 
 @app.route("/test", methods=['post'])
@@ -21,6 +21,7 @@ def test():
 def user_load(user_id):
     return Employee.query.get(user_id)
 
+#features
 @app.route("/login-admin", methods=["post", "get"])
 def login_admin():
     if request.method == "POST":
@@ -39,6 +40,18 @@ def login_admin():
         if emp:
             login_user(user=emp) #Ghi nhận đã đăng nhập
     return redirect("/admin")
+
+@app.route("/flight")
+def flight():
+    return render_template("flight/flight.html")
+
+@app.route("/flight-list")
+def flight_list():
+    return render_template("flightlist/flightlist.html")
+
+@app.route("/ticket")
+def ticket():
+    return render_template("ticket/ticket.html")
 
 if __name__ == "__main__":
     app.run(debug=True) #MỞ chế độ debug cho development

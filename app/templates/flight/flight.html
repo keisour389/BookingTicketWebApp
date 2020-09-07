@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='flight.css') }}" />
+  </head>
+
+  <body>
+    <h1>KIET'S AIRLINE</h1>
+    <h1>Tìm chuyến bay</h1>
+    <div id="timchuyenbay" class="container">
+      <div class="container" id="head">
+        <label>Một chiều
+          <input type="radio" checked="checked" name="radio">
+          <span class="checkmark"></span>
+        </label>
+        
+        <label style="margin-left: 20px;">Khứ hồi
+          <input type="radio" checked="checked" name="radio">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="form-inline" id="diadiem">
+          <div class="block-text">
+            <label>Điểm đi</label>
+            <input title="text" class="form-control mr-sm-2">
+            <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
+          </div>
+  
+          <i id="icon" class="fas fa-exchange-alt"></i>
+  
+          <div class="block-text">
+            <label>Điểm đến</label>
+            <input title="text" class="form-control mr-sm-2">
+            <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
+          </div>
+  
+          <div class="block-text" id="ngaydi">
+            <label>Ngày đi</label>
+            <input type="date" class="form-control mr-sm-2">
+          </div>
+
+          <div class="block-text" id="ngayve">
+            <label>Ngày về</label>
+            <input type="date" class="form-control mr-sm-2">
+          </div>
+      </div>
+      <br/>
+      <button id="timkiem" class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Tìm kiếm chuyến bay</button>
+    </div>
+    
+
+  </body>
+</html>
+
+
