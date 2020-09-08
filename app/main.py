@@ -33,8 +33,8 @@ def login_admin():
         #Kiểm tra CSDL
         emp = Employee.query.filter(Employee.userName == username,
                                     Employee.password == password).first()
-        import pdb
-        pdb.set_trace()
+        # import pdb
+        # pdb.set_trace()
         # emp = Employee.query.filter(Employee.userName == "1",
         #                             Employee.password == "1").first()
         if emp:
@@ -43,7 +43,38 @@ def login_admin():
 
 @app.route("/flight")
 def flight():
-    return render_template("flight/flight.html")
+    airport = Airport.query.all() #Lấy cả sân bay
+    return render_template("flight/flight.html", airport=airport)
+
+@app.route("/search-flight")
+def search_flight():
+    #Lấy các giá trị từ query param
+    start = request.args.get('start')
+    end = request.args.get('end')
+
+    # startID = search_airport_id_by_name(start)
+    # endID = search_airport_id_by_name(end)
+
+    #Lọc
+    flightList = FlightSchedules.query\
+        .filter(FlightSchedules.airportToTakeOff == start, FlightSchedules.airportToLanding == end) \
+        .all()
+    # flightList = Airport.query.join(FlightSchedules, Airport.airportID == FlightSchedules.airportToTakeOff)\
+    #     .add_columns(Airport.airportID, Airport.name, FlightSchedules.flightSchedulesID, FlightSchedules.flightDateTime)\
+    #     .filter(Airport.airportID == start)
+    # flightListString = ''.join(map(str, flightList))
+    # import pdb
+    # pdb.set_trace()
+    # test = ""
+    # for flight in flightList:
+    #     test += flight.name + " "
+
+    # return jsonify({'start': start, 'end': end, 'data': test})
+    return render_template('flightlist/flightlist.html', flightList=flightList) #Transfer data
+
+def search_airport_id_by_name(name):
+    result = Airport.query.filter(Airport.airportID == name).first()
+    return result
 
 @app.route("/flight-list")
 def flight_list():

@@ -1,28 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='flightlist.css') }}" />
-    <title>Home page</title>
-</head>
-<body>
-    <div class="container">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
-        <table id="myTable">
-            <tr class="header">
-                <th style="width:5%;">STT</th>
-                <th style="width:15%;">Mã chuyến bay</th>
-                <th style="width:20%;">Sân bay đi</th>
-                <th style="width:20%;">Sân bay đến</th>
-                <th style="width:10%;">Khởi hành</th>
-                <th style="width:10%;">Thời gian</th>
-                <th style="width:10%;">Số ghế trống</th>
-                <th style="width:10%;">Số ghế đặt</th>
-            </tr>
 
-        </table>
-    </div>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<!--  <link rel="stylesheet" href="{{ url_for('static', filename='flightlist.css') }}" />-->
+  <!--Các script để cài bootstap và modal-->
+<!--  <script src="{{ url_for('static', filename='flightlist.js') }}"></script>-->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <title>Home page</title>
+</head>
+
+<body>
+  <div class="container">
+    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
+    <table class='table table-bordered'>
+      <thead>
+        <tr>
+          <th>Mã chuyến bay</th>
+          <th>Sân bay đi</th>
+          <th>Sân bay đến</th>
+          <th>Khởi hành</th>
+          <th>Thời gian</th>
+          <th>Số ghế trống</th>
+          <th>Số ghế đặt</th>
+          <th>Chức năng</th>
+        </tr>
+      </thead>
+      <tbody>
+      <script type="text/javascript">
+          function getFlightSchedule(flightSchedulesID){
+            console.log("flightSchedulesID " + flightSchedulesID);
+            document.getElementById("flight-schedule-ID").innerHTML = flightSchedulesID;
+          }
+      </script>
+        {% for data in flightList%}
+        <tr>
+          <td>
+            {{ data.flightSchedulesID }}
+          </td>
+          <td>
+            {{ data.airportToTakeOff }}
+          </td>
+          <td>
+            {{ data.airportToLanding }}
+          </td>
+          <td>
+            {{ data.flightDateTime }}
+          </td>
+          <td>
+            {{ data.flightTotalTime }}
+          </td>
+          <td>
+            {{ data.firstClassAmount }}
+          </td>
+          <td>
+            {{ data.secondClassAmount }}
+          </td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyTicketModal"
+            onclick='getFlightSchedule({{data.flightSchedulesID}})'>
+              Mua vé
+            </button>
+            <!--                        <button type="button" class="btn btn-primary" onclick="showModal($event)">Mua vé</button>-->
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#bookingTicketModal">
+              Đặt vé
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+
+        <!-- Button trigger modal -->
+
+
+        <!--Buy Ticket Modal -->
+        <div class="modal fade" id="buyTicketModal" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="buyTicketModalTitle">Mua vé</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="form-group">
+                    <div class="row form-group">
+                      <div class="col-6 text-break">
+                        <h4>Mã chuyến bay: <span id="flight-schedule-ID"></span></h4>
+                      </div>
+                      <div class="col-6 text-break">
+                        <h4>TSN - NB</h4>
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-3">
+                        <h5>CMND</h5>
+                      </div>
+                      <div class="col-9">
+                        <input class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-3">
+                        <h5>Số điện thoại</h5>
+                      </div>
+                      <div class="col-9">
+                        <input class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row form-group">
+                      <div class="col-3">
+                        <h5>Hạng vé</h5>
+                      </div>
+                      <div class="col-9">
+                        <select name="ticket-type" id="ticketType" class="form-control">
+                          <option value="1">Hạng nhất</option>
+                          <option value="2">Hạng nhì</option>
+                      </select>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Xác nhận mua vé</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--Buy Ticket Modal -->
+        <div class="modal fade" id="bookingTicketModal" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="bookingTicketModalTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form class="form-group">
+                    <div class="row">
+                      <div class="col-3">
+                        <h5>CMND</h5>
+                      </div>
+                      <div class="col-9">
+                        <input class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">
+                        <h5>Số điện thoại</h5>
+                      </div>
+                      <div class="col-9">
+                        <input class="form-control" type="text">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-3">
+                        <h5>Hạng vé</h5>
+                      </div>
+                      <div class="col-9">
+                        <select name="ticket-class" id="ticketClass">
+                          <option value="1">Hạng nhất</option>
+                          <option value="2">Hạng nhì</option>
+                      </select>
+                      </div>
+                    </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary">Xác nhận mua vé</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tbody>
+    </table>
+  </div>
 </body>
+
 </html>

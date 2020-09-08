@@ -22,6 +22,7 @@ class Airport(db.Model):
     airport = relationship("FlightSchedules", secondary="intermediary_airport", lazy="subquery",
                            backref=backref("Airport", lazy=True))
 
+
 class Customer(db.Model, UserMixin):
     __tablename__ = "customer"
 

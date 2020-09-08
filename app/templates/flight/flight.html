@@ -9,7 +9,7 @@
   <body>
     <h1>KIET'S AIRLINE</h1>
     <h1>Tìm chuyến bay</h1>
-    <div id="timchuyenbay" class="container">
+    <form id="timchuyenbay" class="container" action="{{url_for('search_flight')}}">
       <div class="container" id="head">
         <label>Một chiều
           <input type="radio" checked="checked" name="radio">
@@ -24,7 +24,11 @@
       <div class="form-inline" id="diadiem">
           <div class="block-text">
             <label>Điểm đi</label>
-            <input title="text" class="form-control mr-sm-2">
+            <select name="start" id="start">
+                {% for data in airport%}
+                <option value="{{data.airportID}}">{{data.name}} ({{data.airportID}})</option>
+                {% endfor%}
+            </select>
             <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
           </div>
   
@@ -32,7 +36,11 @@
   
           <div class="block-text">
             <label>Điểm đến</label>
-            <input title="text" class="form-control mr-sm-2">
+            <select name="end" id="end">
+                {% for data in airport%}
+                <option value="{{data.airportID}}">{{data.name}} ({{data.airportID}})</option>
+                {% endfor%}
+            </select>
             <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
           </div>
   
@@ -47,11 +55,10 @@
           </div>
       </div>
       <br/>
-      <button id="timkiem" class="btn btn-danger my-2 my-sm-0" type="submit"><i class="fas fa-search"></i> Tìm kiếm chuyến bay</button>
-    </div>
-    
-
+      <input id="timkiem" class="btn btn-danger my-2 my-sm-0" type="submit" value="Tìm kiếm chuyến bay">
+    </form>
   </body>
 </html>
+
 
 
