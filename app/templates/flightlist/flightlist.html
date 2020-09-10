@@ -33,16 +33,20 @@
           <th>Sân bay đến</th>
           <th>Khởi hành</th>
           <th>Thời gian</th>
-          <th>Số ghế trống</th>
-          <th>Số ghế đặt</th>
+          <th>Số ghế hạng 1</th>
+          <th>Số ghế hạng 2</th>
           <th>Chức năng</th>
         </tr>
       </thead>
       <tbody>
       <script type="text/javascript">
-          function getFlightSchedule(flightSchedulesID){
+          function getFlightSchedule(flightSchedulesID, airportToTakeOff, airportToLanding,
+          flightDateTime, flightTotalTime, firstClassAmount, secondClassAmount){
             console.log("flightSchedulesID " + flightSchedulesID);
             document.getElementById("flight-schedule-ID").innerHTML = flightSchedulesID;
+            document.getElementById("flight-schedule-name").innerHTML = airportToTakeOff + " - " + airportToLanding;
+            document.getElementById("first-class-ticket").innerHTML = firstClassAmount;
+            document.getElementById("second-class-ticket").innerHTML = secondClassAmount;
           }
       </script>
         {% for data in flightList%}
@@ -70,7 +74,8 @@
           </td>
           <td>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyTicketModal"
-            onclick='getFlightSchedule({{data.flightSchedulesID}})'>
+            onclick='getFlightSchedule({{data.flightSchedulesID}}, "{{data.airportToTakeOff}}", "{{data.airportToLanding}}"
+            ,"{{data.flightDateTime}}", {{data.flightTotalTime}}, {{data.firstClassAmount}}, {{data.secondClassAmount}})'>
               Mua vé
             </button>
             <!--                        <button type="button" class="btn btn-primary" onclick="showModal($event)">Mua vé</button>-->
@@ -102,7 +107,15 @@
                         <h4>Mã chuyến bay: <span id="flight-schedule-ID"></span></h4>
                       </div>
                       <div class="col-6 text-break">
-                        <h4>TSN - NB</h4>
+                        <h4 id="flight-schedule-name">TSN - NB</h4>
+                      </div>
+                    </div>
+                   <div class="row form-group">
+                      <div class="col-6 text-break">
+                        <h4>Vé hạng nhất: <span id="first-class-ticket"></span></h4>
+                      </div>
+                      <div class="col-6 text-break">
+                        <h4>Vé hạng nhì: <span id="second-class-ticket"></span></h4>
                       </div>
                     </div>
                     <div class="row form-group">
