@@ -1,7 +1,7 @@
 from flask import render_template, jsonify, request, redirect
 from flask_cors import CORS, cross_origin
 from flask_login import login_user, current_user
-from app import app, login
+from app import app, login, dao
 from app.models import * #import các model view vào sử dụng
 import hashlib
 
@@ -83,6 +83,26 @@ def flight_list():
 @app.route("/ticket")
 def ticket():
     return render_template("ticket/ticket.html")
+
+@app.route("/create-ticket", methods=["POST"])
+def create_ticket():
+    #Lấy file JSON từ JS
+    data = request.get_json()
+    #Đọc file JSON
+    identityCard = data["identityCard"]
+    phoneNumber = data["phoneNumber"]
+    ticketClass = data["ticketClass"]
+    price = data["price"]
+    note = data["note"]
+    employeeID = data["employeeID"]
+    customerID = data["customerID"]
+    flightSchedulesID = data["flightSchedulesID"]
+    # import pdb
+    # pdb.set_trace()
+    result = dao.create_ticker(identityCard=identityCard,phoneNumber=phoneNumber, ticketClass=ticketClass,
+                             price=price, note=note, employeeID=employeeID, customerID=customerID,
+                            flightSchedulesID=flightSchedulesID)
+    return jsonify({"result": result})
 
 if __name__ == "__main__":
     app.run(debug=True) #MỞ chế độ debug cho development

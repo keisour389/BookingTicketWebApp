@@ -64,6 +64,7 @@ class FlightSchedules(db.Model):
     flightTotalTime = Column(Float, nullable=False)
     firstClassAmount = Column(Integer, nullable=False)
     secondClassAmount = Column(Integer, nullable=False)
+    price = Column(Float, nullable=False)
     note = Column(String(255), nullable=True)
     #Tạo khóa ngoại
     airportToTakeOff = Column(String(10), ForeignKey(Airport.airportID), nullable=False)
@@ -84,7 +85,7 @@ class Ticket(db.Model):
     #Tạo khóa ngoại
     flightSchedulesID = Column(String(30), ForeignKey(FlightSchedules.flightSchedulesID), nullable=False)
     customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
-    employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=False)
+    employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=True)
 
 class BookingDetails(db.Model):
     __tablename__ = "bookingdetails"
