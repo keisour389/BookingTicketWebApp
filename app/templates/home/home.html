@@ -4,21 +4,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
     <title>Home page</title>
 </head>
 <body>
     <div class="topnav" id="myTopnav">
         <div class="container">
             <a href="#home">TRANG CHỦ</a>
-            <a href="{{ url_for('flight') }}">Tìm vé</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
+            <a href="{{ url_for('flight') }}">TÌM VÉ</a>
+            {% if session.cus %}
+                <a href="{{ url_for('logout') }}">ĐĂNG XUẤT</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">ĐĂNG NHẬP</a>
+                <a href="{{ url_for('resister') }}">ĐĂNG KÍ</a>
+            {% endif %}
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
         </div>
     </div>
+    {% if session.cus %}
+        <h1 style="text-align: center;">CHÀO MỪNG {{ session.cus }} </h1>
+    {% endif %}
 </body>
 </html>
 <script>

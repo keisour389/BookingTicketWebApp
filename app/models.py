@@ -3,12 +3,15 @@ from flask import redirect
 from sqlalchemy import Column, Integer, String, Float, Date, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
 from flask_admin.contrib.sqla import ModelView
-from flask_login import UserMixin, current_user, logout_user #Tạo user MixIn vào các user để đăng nhập
-from app import db, admin #Truyền biến admin từ _init_
+from flask_login import UserMixin, current_user, logout_user  # Tạo user MixIn vào các user để đăng nhập
+from app import db, admin  # Truyền biến admin từ _init_
 
-#class ở PY đặt tên theo chuẩn Lạc Đà Hoa
-#Kế thừa db.Model để hiểu đây là 1 table
-#Lớp này sẽ ánh xạ xuống database để tạo bảng theo tên class
+
+# class ở PY đặt tên theo chuẩn Lạc Đà Hoa
+# Kế thừa db.Model để hiểu đây là 1 table
+# Lớp này sẽ ánh xạ xuống database để tạo bảng theo tên class
+
+
 class Airport(db.Model):
     __tablename__ = "airport"
 
@@ -37,6 +40,7 @@ class Customer(db.Model, UserMixin):
     address = Column(String(255), nullable=False)
     note = Column(String(255), nullable=True)
 
+
 class Employee(db.Model, UserMixin):
     __tablename__ = "employee"
 
@@ -53,8 +57,10 @@ class Employee(db.Model, UserMixin):
 
     def get_id(self):
         return self.userName
+
     def __str__(self):
         return self.userName
+
 
 class FlightSchedules(db.Model):
     __tablename__ = "flight_schedules"
@@ -66,31 +72,33 @@ class FlightSchedules(db.Model):
     secondClassAmount = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
     note = Column(String(255), nullable=True)
-    #Tạo khóa ngoại
+    # Tạo khóa ngoại
     airportToTakeOff = Column(String(10), ForeignKey(Airport.airportID), nullable=False)
     airportToLanding = Column(String(10), ForeignKey(Airport.airportID), nullable=False)
     #
     airport = relationship("Airport", secondary="intermediary_airport", lazy="subquery",
                            backref=backref("flight_schedules", lazy=True))
 
+
 class Ticket(db.Model):
     __tablename__ = "ticket"
 
-    ticketID = Column(Integer, primary_key=True, autoincrement=True) #Khóa chính tự động tăng
+    ticketID = Column(Integer, primary_key=True, autoincrement=True)  # Khóa chính tự động tăng
     identityCard = Column(String(15), nullable=False)
     phoneNumber = Column(String(15), nullable=False)
     ticketClass = Column(Integer, nullable=False)
     price = Column(Float, nullable=False)
     note = Column(String(255), nullable=True)
-    #Tạo khóa ngoại
+    # Tạo khóa ngoại
     flightSchedulesID = Column(String(30), ForeignKey(FlightSchedules.flightSchedulesID), nullable=False)
     customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
     employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=True)
 
+
 class BookingDetails(db.Model):
     __tablename__ = "bookingdetails"
 
-    bookingID = Column(Integer, primary_key=True, autoincrement=True) #Khóa chính tự động tăng
+    bookingID = Column(Integer, primary_key=True, autoincrement=True)  # Khóa chính tự động tăng
     identityCard = Column(String(15), nullable=False)
     phoneNumber = Column(String(15), nullable=False)
     ticketClass = Column(Integer, nullable=False)
@@ -101,16 +109,18 @@ class BookingDetails(db.Model):
     customerID = Column(String(20), ForeignKey(Customer.userName), nullable=False)
     employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=False)
 
-#Khi lấy tên bảng trong dấu '' phải lấy đúng theo __tablename__
-#Bảng quan hệ nhiều - nhiều của sân bay và lịch chuyến bay
+
+# Khi lấy tên bảng trong dấu '' phải lấy đúng theo __tablename__
+# Bảng quan hệ nhiều - nhiều của sân bay và lịch chuyến bay
 intermediary_airport = db.Table('intermediary_airport',
-                               Column('flightSchedulesID', String(30),
-                                      ForeignKey('flight_schedules.flightSchedulesID'), primary_key=True),
-                               Column('airportID', String(10),
-                                      ForeignKey('airport.airportID'), primary_key=True),
-                               Column('totalTimeToStop', Float, nullable=False),
-                               Column('note', String(255), nullable=False)
-                               )
+                                Column('flightSchedulesID', String(30),
+                                       ForeignKey('flight_schedules.flightSchedulesID'), primary_key=True),
+                                Column('airportID', String(10),
+                                       ForeignKey('airport.airportID'), primary_key=True),
+                                Column('totalTimeToStop', Float, nullable=False),
+                                Column('note', String(255), nullable=False)
+                                )
+
 
 # class IntermediaryAirport(db.Model):
 #     __tablename__ = "intermediaryairport"
@@ -123,24 +133,27 @@ intermediary_airport = db.Table('intermediary_airport',
 #     note = Column(String(255), nullable=True)
 
 class EmployeeModelView(ModelView):
-    column_display_pk = True #Cho tạo khóa
+    column_display_pk = True  # Cho tạo khóa
     can_create = True
-    form_columns = ('userName', 'password','lastName', 'firstName', 'identityCard',
+    form_columns = ('userName', 'password', 'lastName', 'firstName', 'identityCard',
                     'phoneNumber', 'birthDay', 'gender', 'address', 'note')
 
     def is_accessible(self):
-        return current_user.is_authenticated #Nếu chưa đăng nhập thì không cho vô
+        return current_user.is_authenticated  # Nếu chưa đăng nhập thì không cho vô
+
 
 class LogoutView(BaseView):
     @expose("/")
     def index(self):
         logout_user()
-        return redirect("/admin") #Quay về trang chủ
-#Thêm cái view vào
-#Trước khi create lại db phải tắt cái admin
+        return redirect("/admin")  # Quay về trang chủ
+
+
+# Thêm cái view vào
+# Trước khi create lại db phải tắt cái admin
 admin.add_view(EmployeeModelView(Employee, db.session))
 admin.add_view(ModelView(Airport, db.session))
 admin.add_view(LogoutView(name="Logout"))
-#Câu lệnh tạo bảng dưới database
+# Câu lệnh tạo bảng dưới database
 if __name__ == "__main__":
-     db.create_all()
+    db.create_all()

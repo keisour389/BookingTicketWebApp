@@ -1,0 +1,52 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center;">ĐĂNG KÍ</h1>
+        {% if err_msg %}
+            <div class="alert alert-danger">
+                {{ err_msg }}
+            </div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('resister')}}">
+            <div class="container">
+                <div class="form-group">
+                    <input type="text" name="userName" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="lastName" class="form-control" placeholder="last name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="firstName" class="form-control" placeholder="first name">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="identityCard" class="form-control" placeholder="indentity card">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="phoneNumber" class="form-control" placeholder="phone number">
+                </div>
+                <div class="form-group">
+                    <input type="date" name="birthDay" class="form-control" placeholder="birth day">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="gender" class="form-control" placeholder="gender">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="address" class="form-control" placeholder="address">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="note" class="form-control" placeholder="note">
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Resister" class="btn btn-danger">
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
