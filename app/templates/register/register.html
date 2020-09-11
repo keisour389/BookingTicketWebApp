@@ -1,3 +1,4 @@
+{% include "navbar/navbar.html" %}
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -11,7 +12,7 @@
                 {{ err_msg }}
             </div>
         {% endif %}
-        <form method="POST" action="{{ url_for('resister')}}">
+        <form method="POST" action="{{ url_for('register')}}">
             <div class="container">
                 <div class="form-group">
                     <input type="text" name="userName" class="form-control" placeholder="Username">

@@ -21,7 +21,12 @@ def login_required(f):
 
 @app.route("/")
 def index():
-    return render_template("home/home.html")
+    return render_template("index.html")
+
+
+@app.route("/navbar")
+def navbar():
+    return render_template("navbar/navbar.html")
 
 
 @app.route("/test", methods=['post'])
@@ -125,8 +130,8 @@ def ticket():
     return render_template("ticket/ticket.html")
 
 
-@app.route("/resister", methods=["post", "get"])
-def resister():
+@app.route("/register", methods=["post", "get"])
+def register():
     err_msg = ""
     if request.method == "POST":
         userName = request.form.get("userName")
@@ -146,10 +151,11 @@ def resister():
             return redirect("/")
         else:
             err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
-    return render_template("resister/resister.html", err_msg=err_msg)
+    return render_template("register/register.html", err_msg=err_msg)
 
 
 @app.route("/create-ticket", methods=["POST"])
+@login_required
 def create_ticket():
     # Lấy file JSON từ JS
     data = request.get_json()

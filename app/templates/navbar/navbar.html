@@ -10,13 +10,13 @@
 <body>
     <div class="topnav" id="myTopnav">
         <div class="container">
-            <a href="#home">TRANG CHỦ</a>
+            <a href="{{ url_for('navbar') }}">TRANG CHỦ</a>
             <a href="{{ url_for('flight') }}">TÌM VÉ</a>
             {% if session.cus %}
                 <a href="{{ url_for('logout') }}">ĐĂNG XUẤT</a>
             {% else %}
                 <a href="{{ url_for('login') }}">ĐĂNG NHẬP</a>
-                <a href="{{ url_for('resister') }}">ĐĂNG KÍ</a>
+                <a href="{{ url_for('register') }}">ĐĂNG KÍ</a>
             {% endif %}
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
