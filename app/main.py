@@ -1,22 +1,10 @@
-from flask import render_template, jsonify, request, redirect, url_for, session
-from flask_cors import CORS, cross_origin
+from flask import render_template, jsonify, request, url_for, session, redirect
 from flask_login import login_user, current_user
 from app import app, login, dao
 from app.models import *  # import các model view vào sử dụng
+from app.decorator import login_required
 import hashlib
-from functools import wraps
 
-cors = CORS(app, resources={r"/*": {"origins": "*"}})
-
-
-def login_required(f):
-    @wraps(f)
-    def check(*args, **kwargs):
-        if not session.get("cus"):
-            return redirect(url_for("login", next=request.url))
-        return f(*args, **kwargs)
-
-    return check
 
 
 @app.route("/")
@@ -41,7 +29,7 @@ def user_load(user_id):
 
 
 # features
-@app.route("/login-admin", methods=["post", "get"])
+@app.route("/login-admin", methods=["get", "post"])
 def login_admin():
     if request.method == "POST":
         # Lấy từ form
@@ -67,7 +55,7 @@ def flight():
     return render_template("flight/flight.html", airport=airport)
 
 
-@app.route("/login", methods=["post", "get"])
+@app.route("/login", methods=["get", "post"])
 def login():
     err_msg = ""
     if request.method == "POST":
@@ -76,7 +64,9 @@ def login():
         cus = dao.validate_user(username=username, password=password)
         if cus:
             session["cus"] = username
-            return redirect("/")
+            if "next" in request.args:
+                return redirect(url_for(request.args["next"]))
+            return redirect(url_for("index"))
         else:
             err_msg = "ĐĂNG NHẬP KHÔNG THÀNH CÔNG"
     return render_template("login/login.html", err_msg=err_msg)
@@ -85,7 +75,7 @@ def login():
 @app.route("/logout")
 def logout():
     session["cus"] = None
-    return redirect("/")
+    return redirect(url_for("index"))
 
 
 @app.route("/search-flight")
@@ -148,7 +138,7 @@ def register():
                              identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay, gender=gender,
                              address=address, note=note)
         if cus:
-            return redirect("/")
+            return redirect(url_for("index"))
         else:
             err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
     return render_template("register/register.html", err_msg=err_msg)
