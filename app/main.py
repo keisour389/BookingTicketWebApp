@@ -41,6 +41,16 @@ def login_admin():
             login_user(user=emp) #Ghi nhận đã đăng nhập
     return redirect("/admin")
 
+@app.route("/update-flight-schedule", methods=["put"])
+def update_flight_schedule():
+    #Đọc file JSON
+    data = request.get_json()
+    #Gán giá trị
+    flightScheduleID = data["flightScheduleID"]
+    ticketClass = data["ticketClass"]
+    
+    result = dao.update_flight_schedules(flightScheduleID=flightScheduleID, ticketClass=ticketClass)
+    return jsonify({"result": result})
 @app.route("/flight")
 def flight():
     airport = Airport.query.all() #Lấy cả sân bay

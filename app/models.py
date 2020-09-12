@@ -64,7 +64,8 @@ class FlightSchedules(db.Model):
     flightTotalTime = Column(Float, nullable=False)
     firstClassAmount = Column(Integer, nullable=False)
     secondClassAmount = Column(Integer, nullable=False)
-    price = Column(Float, nullable=False)
+    firstClassPrice = Column(Float, nullable=False)
+    secondClassPrice = Column(Float, nullable=False)
     note = Column(String(255), nullable=True)
     #Tạo khóa ngoại
     airportToTakeOff = Column(String(10), ForeignKey(Airport.airportID), nullable=False)

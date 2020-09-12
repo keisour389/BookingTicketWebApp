@@ -31,7 +31,6 @@
           <th>Mã chuyến bay</th>
           <th>Sân bay đi</th>
           <th>Sân bay đến</th>
-          <th>Giá tiền</th>
           <th>Khởi hành</th>
           <th>Thời gian</th>
           <th>Chức năng</th>
@@ -39,14 +38,25 @@
       </thead>
       <tbody>
         <script type="text/javascript">
-          function getFlightSchedule(flightSchedulesID, price, airportToTakeOff, airportToLanding,
+          function getFlightSchedule(flightSchedulesID, firstClassPrice, secondClassPrice, airportToTakeOff, airportToLanding,
             flightDateTime, flightTotalTime, firstClassAmount, secondClassAmount) {
             console.log("flightSchedulesID " + flightSchedulesID);
             document.getElementById("flight-schedule-ID").innerHTML = flightSchedulesID;
             document.getElementById("flight-schedule-name").innerHTML = airportToTakeOff + " - " + airportToLanding;
             document.getElementById("first-class-ticket").innerHTML = firstClassAmount;
             document.getElementById("second-class-ticket").innerHTML = secondClassAmount;
-            document.getElementById("price").innerHTML = price + " VNĐ";
+            document.getElementById("first-class-price").innerHTML = firstClassPrice + " VNĐ";
+            document.getElementById("second-class-price").innerHTML = secondClassPrice + " VNĐ";
+            //Giá tiền của khách hàng
+            var value = document.getElementById("customerTicketType").value;
+            if (value == 1) {
+              //Bằng giá tiền hạng nhất
+              document.getElementById("price").innerHTML = document.getElementById("first-class-price").innerHTML;
+            }
+            else {
+              //Bằng giá tiền hạng nhất
+              document.getElementById("price").innerHTML = document.getElementById("second-class-price").innerHTML;
+            }
           }
         </script>
         {% for data in flightList%}
@@ -61,9 +71,6 @@
             {{ data.airportToLanding }}
           </td>
           <td>
-            {{ data.price }} VNĐ
-          </td>
-          <td>
             {{ data.flightDateTime }}
           </td>
           <td>
@@ -71,7 +78,7 @@
           </td>
           <td>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyTicketModal"
-              onclick='getFlightSchedule({{data.flightSchedulesID}}, {{data.price}}, "{{data.airportToTakeOff}}", "{{data.airportToLanding}}"
+              onclick='getFlightSchedule({{data.flightSchedulesID}}, {{data.firstClassPrice}}, {{data.secondClassPrice}}, "{{data.airportToTakeOff}}", "{{data.airportToLanding}}"
             ,"{{data.flightDateTime}}", {{data.flightTotalTime}}, {{data.firstClassAmount}}, {{data.secondClassAmount}})'>
               Mua vé
             </button>
@@ -116,8 +123,11 @@
                     </div>
                   </div>
                   <div class="row form-group">
-                    <div class="col-12 text-break">
-                      <h4>Giá tiền: <span id="price"></span></h4>
+                    <div class="col-6 text-break">
+                      <h4>Giá tiền: <span id="first-class-price"></span></h4>
+                    </div>
+                    <div class="col-6 text-break">
+                      <h4>Giá tiền: <span id="second-class-price"></span></h4>
                     </div>
                   </div>
                   <div class="row form-group">
@@ -141,10 +151,19 @@
                       <h5>Hạng vé</h5>
                     </div>
                     <div class="col-9">
-                      <select name="ticket-type" id="customerTicketType" class="form-control">
+                      <select name="ticket-type" id="customerTicketType" class="form-control"
+                        onchange="chooseTicketType()">
                         <option value="1">Hạng nhất</option>
                         <option value="2">Hạng nhì</option>
                       </select>
+                    </div>
+                  </div>
+                  <div class="row form-group">
+                    <div class="col-3">
+                      <h5>Giá tiền</h5>
+                    </div>
+                    <div class="col-9">
+                      <h5 id="price"></h5>
                     </div>
                   </div>
                 </form>

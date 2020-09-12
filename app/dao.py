@@ -1,6 +1,19 @@
 from app import db
 from app.models import *
 
+def update_flight_schedules(flightScheduleID, ticketClass):
+    try:
+        flightSchedule = FlightSchedules.query.filter(FlightSchedules.flightSchedulesID == flightScheduleID).first()
+        if ticketClass == 1:
+            flightSchedule.firstClassAmount -= 1
+        else:
+            flightSchedule.secondClassAmount -= 1
+        db.session.commit()
+        return True
+    except:
+        return False
+
+
 def create_ticker(identityCard, phoneNumber, ticketClass, price, note, employeeID, flightSchedulesID, customerID):
     ticket = Ticket()
     #Gán giá trị
