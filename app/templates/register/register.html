@@ -15,31 +15,34 @@
         <form method="POST" action="{{ url_for('register')}}">
             <div class="container">
                 <div class="form-group">
-                    <input type="text" name="userName" class="form-control" placeholder="Username">
+                    <input type="text" name="userName" class="form-control" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="lastName" class="form-control" placeholder="last name">
+                    <input type="password" name="confirm" class="form-control" placeholder="Comfirm Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="firstName" class="form-control" placeholder="first name">
+                    <input type="text" name="lastName" class="form-control" placeholder="last name" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="identityCard" class="form-control" placeholder="indentity card">
+                    <input type="text" name="firstName" class="form-control" placeholder="first name" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="phoneNumber" class="form-control" placeholder="phone number">
+                    <input type="text" name="identityCard" class="form-control" placeholder="indentity card" required>
                 </div>
                 <div class="form-group">
-                    <input type="date" name="birthDay" class="form-control" placeholder="birth day">
+                    <input type="text" name="phoneNumber" class="form-control" placeholder="phone number" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="gender" class="form-control" placeholder="gender">
+                    <input type="date" name="birthDay" class="form-control" placeholder="birth day" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="address" class="form-control" placeholder="address">
+                    <input type="text" name="gender" class="form-control" placeholder="gender" required>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="address" class="form-control" placeholder="address" required>
                 </div>
                 <div class="form-group">
                     <input type="text" name="note" class="form-control" placeholder="note">
