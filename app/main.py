@@ -1,15 +1,16 @@
-from flask import render_template, jsonify, request, redirect
+from flask import render_template, jsonify, request, url_for, session
 from flask_cors import CORS, cross_origin
 from flask_login import login_user, current_user
 from app import app, login, dao
 from app.models import * #import các model view vào sử dụng
+from app.decorator import login_required
 import hashlib
 
 cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    return render_template("home/home.html")
+    return render_template("navbar/navbar.html")
 
 
 @app.route("/test", methods=['post'])
@@ -21,24 +22,41 @@ def test():
 def user_load(user_id):
     return Employee.query.get(user_id)
 
-#features
-@app.route("/login-admin", methods=["post", "get"])
+# session
+@app.route("/cus-session")
+def get_cus_session():
+    if 'cus' in session:
+        return jsonify({"data": session['cus'],
+                        "success": True})
+    return jsonify({"data": "None",
+                        "success": True})
+    # import pdb
+    # pdb.set_trace()
+    # if session.get('cus') == True:
+    #      return session.cus
+    # else:
+    #     return "None"
+# features
+@app.route("/navbar")
+def navbar():
+    return render_template("navbar/navbar.html")
+
+@app.route("/login-admin", methods=["get", "post"])
 def login_admin():
     if request.method == "POST":
-        #Lấy từ form
+        # Lấy từ form
         username = request.form.get("username")
         password = request.form.get("password")
-        #Băm mật khẩu
+        # Băm mật khẩu
         password = hashlib.md5(password.strip().encode("utf-8")).hexdigest()
-        #Kiểm tra CSDL
-        emp = Employee.query.filter(Employee.userName == username,
-                                    Employee.password == password).first()
+        # Kiểm tra CSDL
+        emp = dao.validate_user(username=username, password=password)
         # import pdb
         # pdb.set_trace()
         # emp = Employee.query.filter(Employee.userName == "1",
         #                             Employee.password == "1").first()
         if emp:
-            login_user(user=emp) #Ghi nhận đã đăng nhập
+            login_user(user=emp)  # Ghi nhận đã đăng nhập
     return redirect("/admin")
 
 @app.route("/update-flight-schedule", methods=["put"])
@@ -51,7 +69,9 @@ def update_flight_schedule():
     
     result = dao.update_flight_schedules(flightScheduleID=flightScheduleID, ticketClass=ticketClass)
     return jsonify({"result": result})
+
 @app.route("/flight")
+@login_required
 def flight():
     airport = Airport.query.all() #Lấy cả sân bay
     return render_template("flight/flight.html", airport=airport)
@@ -114,5 +134,51 @@ def create_ticket():
                             flightSchedulesID=flightSchedulesID)
     return jsonify({"result": result})
 
+@app.route("/login", methods=["get", "post"])
+def login():
+    err_msg = ""
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        cus = dao.validate_user(username=username, password=password)
+        if cus:
+            session["cus"] = username
+            if "next" in request.args:
+                return redirect(url_for(request.args["next"]))
+            return redirect(url_for("index"))
+        else:
+            err_msg = "ĐĂNG NHẬP KHÔNG THÀNH CÔNG"
+    return render_template("login/login.html", err_msg=err_msg)
+
+
+@app.route("/logout")
+def logout():
+    session["cus"] = None
+    return redirect(url_for("index"))
+
+@app.route("/register", methods=["post", "get"])
+def register():
+    err_msg = ""
+    if request.method == "POST":
+        userName = request.form.get("userName")
+        password = request.form.get("password")
+        lastName = request.form.get("lastName")
+        firstName = request.form.get("firstName")
+        identityCard = request.form.get("identityCard")
+        phoneNumber = request.form.get("phoneNumber")
+        birthDay = request.form.get("birthDay")
+        gender = request.form.get("gender")
+        address = request.form.get("address")
+        note = request.form.get("note")
+        cus = dao.create_cus(userName=userName, password=password, lastName=lastName, firstName=firstName,
+                             identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay, gender=gender,
+                             address=address, note=note)
+        import pdb
+        pdb.set_trace()
+        if cus:
+            return redirect(url_for("index"))
+        else:
+            err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
+    return render_template("register/register.html", err_msg=err_msg)
 if __name__ == "__main__":
     app.run(debug=True) #MỞ chế độ debug cho development

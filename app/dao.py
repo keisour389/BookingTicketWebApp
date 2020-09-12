@@ -1,5 +1,6 @@
 from app import db
 from app.models import *
+import hashlib
 
 def update_flight_schedules(flightScheduleID, ticketClass):
     try:
@@ -32,3 +33,35 @@ def create_ticker(identityCard, phoneNumber, ticketClass, price, note, employeeI
         return True
     except Exception as ex:
         return False
+
+def create_cus(userName, password, lastName, firstName, identityCard, phoneNumber, birthDay, gender, address, note):
+    cus = Customer()
+    hashpass = str(hashlib.md5(password.strip().encode("utf-8")).hexdigest())
+    cus.userName = userName
+    cus.password = hashpass
+    cus.lastName = lastName
+    cus.firstName = firstName
+    cus.identityCard = identityCard
+    cus.phoneNumber = phoneNumber
+    cus.birthDay = birthDay
+    cus.gender = gender
+    cus.address = address
+    cus.note = note
+    try:
+        db.session.add(cus)
+        db.session.commit()
+        return True
+    except Exception as ex:
+        return False
+
+
+def validate_user(username, password):
+    hashpass = str(hashlib.md5(password.strip().encode("utf-8")).hexdigest())
+    user = Customer.query.filter(Customer.userName == username,
+                                 Customer.password == hashpass).first()
+    if user:
+        return user
+    else:
+        user = Employee.query.filter(Employee.userName == username,
+                                     Employee.password == hashpass).first()
+        return user
