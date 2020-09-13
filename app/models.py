@@ -136,9 +136,6 @@ class BookingDetailsModelView(ModelView):
     form_columns = ('bookingID', 'identityCard', 'phoneNumber', 'ticketClass', 'price',
                     'note', 'flightSchedulesID', 'customerID', 'employeeID')
 
-    def is_accessible(self):
-        return current_user.is_authenticated  # Nếu chưa đăng nhập thì không cho vô
-
 
 class EmployeeModelView(ModelView):
     column_display_pk = True  # Cho tạo khóa
@@ -146,15 +143,18 @@ class EmployeeModelView(ModelView):
     form_columns = ('userName', 'password', 'lastName', 'firstName', 'identityCard',
                     'phoneNumber', 'birthDay', 'gender', 'address', 'note')
 
-    def is_accessible(self):
-        return current_user.is_authenticated  # Nếu chưa đăng nhập thì không cho vô
-
 
 class LogoutView(BaseView):
     @expose("/")
     def index(self):
         logout_user()
-        return redirect("/")  # Quay về trang chủ
+        return redirect("/")# Quay về trang chủ
+
+
+class ReportView(BaseView):
+    @expose("/")
+    def index(self):
+        return redirect("/export")
 
 
 # Thêm cái view vào
@@ -163,6 +163,7 @@ admin.add_view(EmployeeModelView(Employee, db.session))
 admin.add_view(BookingDetailsModelView(BookingDetails, db.session))
 admin.add_view(ModelView(Airport, db.session))
 admin.add_view(LogoutView(name="Logout"))
+admin.add_view(ReportView(name="Create report"))
 # Câu lệnh tạo bảng dưới database
 if __name__ == "__main__":
     db.create_all()

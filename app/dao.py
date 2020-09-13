@@ -73,3 +73,11 @@ def validate_user_emp(username, password):
     if user:
         return user
     return None
+
+
+def get_bookingdetails():
+    data = BookingDetails.query.all()
+    if data:
+        return data
+    else:
+        return None

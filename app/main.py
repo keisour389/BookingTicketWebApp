@@ -1,7 +1,7 @@
-from flask import render_template, jsonify, request, url_for, session
+from flask import render_template, jsonify, request, url_for, session, send_file
 from flask_cors import CORS, cross_origin
 from flask_login import login_user, current_user
-from app import app, login, dao
+from app import app, login, dao, utils
 from app.models import *  # import các model view vào sử dụng
 from app.decorator import login_required
 import hashlib
@@ -144,7 +144,6 @@ def login():
             return redirect(url_for("index"))
         else:
             if emp:
-                login_user(user=emp)
                 return redirect("/admin")
             else:
                 err_msg = "ĐĂNG NHẬP KHÔNG THÀNH CÔNG"
@@ -183,6 +182,11 @@ def register():
         else:
             err_msg = "MẬT KHẨU VÀ XÁC NHẬN MẬT KHẨU KHÔNG TRÙNG NHAU"
     return render_template("register/register.html", err_msg=err_msg)
+
+
+@app.route("/export")
+def export_report():
+    return send_file(utils.export_csv())
 
 
 if __name__ == "__main__":
