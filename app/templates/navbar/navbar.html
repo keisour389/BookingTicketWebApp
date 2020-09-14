@@ -4,11 +4,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
     <title>Home page</title>
 </head>
 <body>
-    <div class="topnav" id="myTopnav">
+    <div class="topnav sticky-top" id="myTopnav">
         <div class="container">
             <a href="{{ url_for('navbar') }}">TRANG CHỦ</a>
             <a href="{{ url_for('flight') }}">TÌM VÉ</a>
@@ -31,10 +31,10 @@
 <script>
     function myFunction() {
       var x = document.getElementById("myTopnav");
-      if (x.className === "topnav") {
-        x.className += " responsive";
+      if (x.className === "topnav sticky-top") {
+        x.className += " responsive sticky-top";
       } else {
-        x.className = "topnav";
+        x.className = "topnav sticky-top";
       }
     }
 </script>

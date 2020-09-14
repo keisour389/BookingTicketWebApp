@@ -3,27 +3,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" />
 </head>
 <body>
-    <div class="container">
+    <br/>
+    <div class="container" >
         <h1 style="text-align: center;">ĐĂNG NHẬP</h1>
-        {% if err_msg %}
-            <div class="alert alert-danger">
-                {{ err_msg }}
-            </div>
-        {% endif %}
+        <br/>
         <form method="POST" action="{{ url_for('login')}}">
-            <div class="container">
+            <div class="container" style="width: fit-content;">
+                {% if err_msg %}
+                    <div class="alert alert-danger">
+                        {{ err_msg }}
+                    </div>
+                {% endif %}
                 <div class="form-group">
-                    <input type="text" name="username" class="form-control" placeholder="Username">
+                    <input type="text" name="username" class="form-control" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-danger">
-                    <p>Bạn chưa có tài khoản ? <a href="{{ url_for('register') }}">  Đăng kí</a></p>
+                    <input type="submit" value="Login" class="btn btn-success">
                 </div>
+                <p>Bạn chưa có tài khoản ? <a href="{{ url_for('register') }}">  Đăng kí</a></p>
             </div>
         </form>
     </div>

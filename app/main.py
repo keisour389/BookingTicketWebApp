@@ -172,13 +172,16 @@ def register():
         address = request.form.get("address")
         note = request.form.get("note")
         if password.strip() == confirm.strip():
-            cus = dao.create_cus(userName=userName, password=password, lastName=lastName, firstName=firstName,
-                                 identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay, gender=gender,
-                                 address=address, note=note)
-            if cus:
-                return redirect(url_for("index"))
+            if dao.validate_user_cus(username=userName, password=password):
+                cus = dao.create_cus(userName=userName, password=password, lastName=lastName, firstName=firstName,
+                                     identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay, gender=gender,
+                                     address=address, note=note)
+                if cus:
+                    return redirect(url_for("index"))
+                else:
+                    err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
             else:
-                err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
+                err_msg = "TÀI KHOẢN ĐÃ TỒN TẠI"
         else:
             err_msg = "MẬT KHẨU VÀ XÁC NHẬN MẬT KHẨU KHÔNG TRÙNG NHAU"
     return render_template("register/register.html", err_msg=err_msg)

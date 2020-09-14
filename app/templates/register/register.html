@@ -5,15 +5,17 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 </head>
 <body>
+    <br/>
     <div class="container">
         <h1 style="text-align: center;">ĐĂNG KÍ</h1>
-        {% if err_msg %}
-            <div class="alert alert-danger">
-                {{ err_msg }}
-            </div>
-        {% endif %}
+        <br/>
         <form method="POST" action="{{ url_for('register')}}">
-            <div class="container">
+            <div class="container" style="width: 450px;">
+                {% if err_msg %}
+                    <div class="alert alert-danger">
+                        {{ err_msg }}
+                    </div>
+                {% endif %}
                 <div class="form-group">
                     <input type="text" name="userName" class="form-control" placeholder="Username" required>
                 </div>
