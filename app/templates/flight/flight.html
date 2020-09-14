@@ -1,13 +1,10 @@
-{% include "navbar/navbar.html" %}
-<html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+{% extends "index.html" %}
+{% block head %}
+    <title>TÌM CHUYẾN BAY</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flight.css') }}" />
-  </head>
-
-  <body>
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+{% endblock %}
+{% block content  %}
     <h1>KIET'S AIRLINE</h1>
     <h1>Tìm chuyến bay</h1>
     <form id="timchuyenbay" class="container" action="{{url_for('search_flight')}}">
@@ -16,7 +13,7 @@
           <input type="radio" checked="checked" name="radio">
           <span class="checkmark"></span>
         </label>
-        
+
         <label style="margin-left: 20px;">Khứ hồi
           <input type="radio" checked="checked" name="radio">
           <span class="checkmark"></span>
@@ -30,11 +27,11 @@
                 <option value="{{data.airportID}}">{{data.name}} ({{data.airportID}})</option>
                 {% endfor%}
             </select>
-            <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
+            <button class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
           </div>
-  
+
           <i id="icon" class="fas fa-exchange-alt"></i>
-  
+
           <div class="block-text">
             <label>Điểm đến</label>
             <select name="end" id="end">
@@ -44,7 +41,7 @@
             </select>
             <button id="btn" class="btn btn-danger my-2 my-sm-0"><i class="fas fa-map-marker-alt"></i></button>
           </div>
-  
+
           <div class="block-text" id="ngaydi">
             <label>Ngày đi</label>
             <input type="date" class="form-control mr-sm-2">
@@ -58,8 +55,7 @@
       <br/>
       <input id="timkiem" class="btn btn-danger my-2 my-sm-0" type="submit" value="Tìm kiếm chuyến bay">
     </form>
-  </body>
-</html>
+{% endblock %}
 
 
 

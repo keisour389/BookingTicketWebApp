@@ -1,0 +1,17 @@
+Nếu tạo 1 trang html mới thì phải làm theo cách sau
+
+Tạo file html
+
+Delete hết tất cả
+
+Copy những dòng này 
+
+{% extends 'index.html' %}
+{% block head %}
+	Đây là nơi đặt đường dẫn đến file css hoặc file js hoặc đặt title cho trang  
+	Không cần thêm cdn của bootstrap và jquery vì đã kế thừa của file index
+{% endblock %}
+
+{% block content%}
+	Đây là body của trang chỉ cần viết những thẻ khác mà ko cần thêm thẻ body nữa
+{% endblock %}

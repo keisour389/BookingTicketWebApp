@@ -1,5 +1,9 @@
 {% extends "admin/master.html" %}
-
 {% block body %}
-    <h1>WELCOME TO ADMIN PAGES !!!</h1>
+    {% if current_user.is_authenticated %}
+        <h1>WELCOME TO ADMIN PAGES !!!</h1>
+        <h1>{{ current_user.userName }}</h1>
+    {% else %}
+        {% include 'admin/404.html' %}
+    {% endif %}
 {% endblock %}

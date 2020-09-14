@@ -139,16 +139,16 @@ def login():
         emp = dao.validate_user_emp(username=username, password=password)
         if cus:
             session["cus"] = username
-            if "next" in request.args:
-                return redirect(url_for(request.args["next"]))
-            return redirect(url_for("index"))
+            #if "next" in request.args:
+                #return redirect(url_for(request.args["next"]))
+            return redirect(url_for("index", username=session["cus"]))
         else:
             if emp:
+                login_user(user=emp)
                 return redirect("/admin")
             else:
                 err_msg = "ĐĂNG NHẬP KHÔNG THÀNH CÔNG"
     return render_template("login/login.html", err_msg=err_msg)
-
 
 @app.route("/logout")
 def logout():

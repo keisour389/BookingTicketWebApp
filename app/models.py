@@ -10,7 +10,9 @@ from app import db, admin  # Truyền biến admin từ _init_
 # class ở PY đặt tên theo chuẩn Lạc Đà Hoa
 # Kế thừa db.Model để hiểu đây là 1 table
 # Lớp này sẽ ánh xạ xuống database để tạo bảng theo tên class
-class Airport(db.Model):
+
+
+class Airport(db.Model, UserMixin):
     __tablename__ = "airport"
 
     airportID = Column(String(10), primary_key=True)
@@ -136,6 +138,9 @@ class BookingDetailsModelView(ModelView):
     form_columns = ('bookingID', 'identityCard', 'phoneNumber', 'ticketClass', 'price',
                     'note', 'flightSchedulesID', 'customerID', 'employeeID')
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 
 class EmployeeModelView(ModelView):
     column_display_pk = True  # Cho tạo khóa
@@ -143,12 +148,26 @@ class EmployeeModelView(ModelView):
     form_columns = ('userName', 'password', 'lastName', 'firstName', 'identityCard',
                     'phoneNumber', 'birthDay', 'gender', 'address', 'note')
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+class AirportModelView(ModelView):
+    column_display_pk = True  # Cho tạo khóa
+    can_create = True
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 
 class LogoutView(BaseView):
     @expose("/")
     def index(self):
         logout_user()
-        return redirect("/")# Quay về trang chủ
+        return redirect("/")  # Quay về trang chủ
+
+    def is_accessible(self):
+        return current_user.is_authenticated
 
 
 class ReportView(BaseView):
@@ -156,12 +175,15 @@ class ReportView(BaseView):
     def index(self):
         return redirect("/export")
 
+    def is_accessible(self):
+        return current_user.is_authenticated
+
 
 # Thêm cái view vào
 # Trước khi create lại db phải tắt cái admin
 admin.add_view(EmployeeModelView(Employee, db.session))
 admin.add_view(BookingDetailsModelView(BookingDetails, db.session))
-admin.add_view(ModelView(Airport, db.session))
+admin.add_view(AirportModelView(Airport, db.session))
 admin.add_view(LogoutView(name="Logout"))
 admin.add_view(ReportView(name="Create report"))
 # Câu lệnh tạo bảng dưới database

@@ -1,29 +1,16 @@
-{% include "navbar/navbar.html" %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
-    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-   <link rel="stylesheet" href="{{ url_for('static', filename='flightlist.css') }}" />
-  <!--Các script để cài bootstap và modal-->
-  <script src="{{ url_for('static', filename='js/flightlist.js') }}"></script>
-  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+{% extends "index.html" %}
+{% block head %}
+    <title>DANH SÁCH CHUYẾN BAY</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flightlist.css') }}" />
+    <script src="{{ url_for('static', filename='js/flightlist.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
     integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
     crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
-
-  <title>Home page</title>
-</head>
-
-<body>
+{% endblock %}
+{% block content  %}
   <div class="container">
     <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
     <table class='table table-bordered'>
@@ -228,6 +215,4 @@
       </tbody>
     </table>
   </div>
-</body>
-
-</html>
+{% endblock %}

@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/navbar.css') }}" />
-    <title>Home page</title>
 </head>
 <body>
     <div class="topnav sticky-top" id="myTopnav">
         <div class="container">
-            <a href="{{ url_for('navbar') }}">TRANG CHỦ</a>
+            <a href="{{ url_for('index') }}">TRANG CHỦ</a>
             <a href="{{ url_for('flight') }}">TÌM VÉ</a>
             {% if session.cus %}
                 <a href="{{ url_for('logout') }}">ĐĂNG XUẤT</a>
@@ -26,9 +23,7 @@
     {% if session.cus %}
         <h1 style="text-align: center;">CHÀO MỪNG {{ session.cus }} </h1>
     {% endif %}
-</body>
-</html>
-<script>
+    <script>
     function myFunction() {
       var x = document.getElementById("myTopnav");
       if (x.className === "topnav sticky-top") {
@@ -38,3 +33,6 @@
       }
     }
 </script>
+    <script src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+</body>
+</html>
