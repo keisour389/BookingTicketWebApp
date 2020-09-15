@@ -5,24 +5,24 @@
 {% endblock %}
 {% block content  %}
     <br/>
-    <div class="container" >
+    <div id="login"  class="container">
         <h1 style="text-align: center;">ĐĂNG NHẬP</h1>
         <br/>
-        <form method="POST" action="{{ url_for('login')}}">
-            <div class="container" style="width: fit-content;">
+        <form class="container" method="POST" action="{{ url_for('login')}}">
+            <div class="container">
                 {% if err_msg %}
                     <div class="alert alert-danger">
                         {{ err_msg }}
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <input type="text" name="username" class="form-control" placeholder="Username" required>
+                    <input id="input" type="text" name="username" class="form-control" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    <input id="input" type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Login" class="btn btn-success">
+                    <input id="input" type="submit" value="Đăng nhập" class="btn btn-success">
                 </div>
                 <p>Bạn chưa có tài khoản ? <a href="{{ url_for('register') }}">  Đăng kí</a></p>
             </div>

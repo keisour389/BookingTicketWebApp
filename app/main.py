@@ -11,7 +11,7 @@ cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/")
 def index():
-    return render_template("navbar/navbar.html")
+    return render_template("index.html")
 
 
 @app.route("/test", methods=['post'])
@@ -60,7 +60,6 @@ def update_flight_schedule():
 
 
 @app.route("/flight")
-@login_required
 def flight():
     airport = Airport.query.all()  # Lấy cả sân bay
     return render_template("flight/flight.html", airport=airport)
@@ -109,6 +108,7 @@ def ticket():
 
 
 @app.route("/create-ticket", methods=["POST"])
+@login_required
 def create_ticket():
     # Lấy file JSON từ JS
     data = request.get_json()
@@ -141,7 +141,7 @@ def login():
             session["cus"] = username
             #if "next" in request.args:
                 #return redirect(url_for(request.args["next"]))
-            return redirect(url_for("index", username=session["cus"]))
+            return redirect(url_for("index"))
         else:
             if emp:
                 login_user(user=emp)
@@ -149,6 +149,7 @@ def login():
             else:
                 err_msg = "ĐĂNG NHẬP KHÔNG THÀNH CÔNG"
     return render_template("login/login.html", err_msg=err_msg)
+
 
 @app.route("/logout")
 def logout():

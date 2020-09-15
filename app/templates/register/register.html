@@ -1,10 +1,11 @@
 {% extends "index.html" %}
 {% block head %}
-    <title>ĐĂNG NHẬP</title>
+    <title>ĐĂNG KÍ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}" />
 {% endblock %}
 {% block content  %}
     <br/>
-    <div class="container">
+    <div id="register" class="container">
         <h1 style="text-align: center;">ĐĂNG KÍ</h1>
         <br/>
         <form method="POST" action="{{ url_for('register')}}">
@@ -15,40 +16,40 @@
                     </div>
                 {% endif %}
                 <div class="form-group">
-                    <input type="text" name="userName" class="form-control" placeholder="Username" required>
+                    <input id="input" type="text" name="userName" class="form-control" placeholder="Username" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                    <input id="input" type="password" name="password" class="form-control" placeholder="Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="confirm" class="form-control" placeholder="Comfirm Password" required>
+                    <input id="input" type="password" name="confirm" class="form-control" placeholder="Comfirm Password" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="lastName" class="form-control" placeholder="last name" required>
+                    <input id="input" type="text" name="lastName" class="form-control" placeholder="last name" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="firstName" class="form-control" placeholder="first name" required>
+                    <input id="input" type="text" name="firstName" class="form-control" placeholder="first name" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="identityCard" class="form-control" placeholder="indentity card" required>
+                    <input id="input" type="text" name="identityCard" class="form-control" placeholder="indentity card" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="phoneNumber" class="form-control" placeholder="phone number" required>
+                    <input id="input" type="text" name="phoneNumber" class="form-control" placeholder="phone number" required>
                 </div>
                 <div class="form-group">
-                    <input type="date" name="birthDay" class="form-control" placeholder="birth day" required>
+                    <input id="input" type="date" name="birthDay" class="form-control" placeholder="birth day" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="gender" class="form-control" placeholder="gender" required>
+                    <input id="input" type="text" name="gender" class="form-control" placeholder="gender" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="address" class="form-control" placeholder="address" required>
+                    <input id="input" type="text" name="address" class="form-control" placeholder="address" required>
                 </div>
                 <div class="form-group">
-                    <input type="text" name="note" class="form-control" placeholder="note">
+                    <input id="input" type="text" name="note" class="form-control" placeholder="note">
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Resister" class="btn btn-danger">
+                    <input id="input" type="submit" value="Đăng kí" class="btn btn-danger">
                 </div>
             </div>
         </form>
