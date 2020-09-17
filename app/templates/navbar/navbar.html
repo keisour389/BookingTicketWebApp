@@ -14,6 +14,7 @@
             <a href="{{ url_for('index') }}">TRANG CHỦ</a>
             <a href="{{ url_for('flight') }}">TÌM VÉ</a>
             {% if session.cus %}
+                <a href="{{ url_for('bookinghistory') }}">XEM LỊCH SỬ ĐẶT VÉ</a>
                 <a href="{{ url_for('logout') }}">ĐĂNG XUẤT</a>
             {% else %}
                 <a href="{{ url_for('login') }}">ĐĂNG NHẬP</a>

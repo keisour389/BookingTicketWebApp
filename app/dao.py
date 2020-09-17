@@ -1,3 +1,4 @@
+from app import app
 from app import db
 from app.models import *
 import hashlib
@@ -67,9 +68,8 @@ def validate_user_cus(username, password):
 
 
 def validate_user_emp(username, password):
-    hashpass = str(hashlib.md5(password.strip().encode("utf-8")).hexdigest())
     user = Employee.query.filter(Employee.userName == username,
-                                 Employee.password == hashpass).first()
+                                 Employee.password == password).first()
     if user:
         return user
     return None

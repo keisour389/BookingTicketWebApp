@@ -60,6 +60,7 @@ def update_flight_schedule():
 
 
 @app.route("/flight")
+@login_required
 def flight():
     airport = Airport.query.all()  # Lấy cả sân bay
     return render_template("flight/flight.html", airport=airport)
@@ -139,8 +140,8 @@ def login():
         emp = dao.validate_user_emp(username=username, password=password)
         if cus:
             session["cus"] = username
-            #if "next" in request.args:
-                #return redirect(url_for(request.args["next"]))
+            if "next" in request.args:
+                return redirect(request.args["next"])
             return redirect(url_for("index"))
         else:
             if emp:
@@ -172,13 +173,14 @@ def register():
         gender = request.form.get("gender")
         address = request.form.get("address")
         note = request.form.get("note")
-        if password.strip() == confirm.strip():
-            if dao.validate_user_cus(username=userName, password=password):
+        if confirm.strip() == password.strip():
+            if not dao.validate_user_cus(username=userName, password=password):
                 cus = dao.create_cus(userName=userName, password=password, lastName=lastName, firstName=firstName,
-                                     identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay, gender=gender,
+                                     identityCard=identityCard, phoneNumber=phoneNumber, birthDay=birthDay,
+                                     gender=gender,
                                      address=address, note=note)
                 if cus:
-                    return redirect(url_for("index"))
+                    err_msg = "ĐĂNG KÍ THÀNH CÔNG"
                 else:
                     err_msg = "ĐĂNG KÍ KHÔNG THÀNH CÔNG"
             else:
@@ -191,6 +193,12 @@ def register():
 @app.route("/export")
 def export_report():
     return send_file(utils.export_csv())
+
+
+@app.route("/bookinghistory")
+def bookinghistory():
+    result = BookingDetails.query.filter(BookingDetails.customerID == session.get("cus")).first()
+    return render_template("bookinghistory/bookinghistory.html", result=result)
 
 
 if __name__ == "__main__":

@@ -5,10 +5,10 @@
 {% endblock %}
 {% block content  %}
     <br/>
-    <div id="login"  class="container">
+    <div id="login" class="container">
         <h1 style="text-align: center;">ĐĂNG NHẬP</h1>
         <br/>
-        <form class="container" method="POST" action="{{ url_for('login')}}">
+        <form class="container" method="POST">
             <div class="container">
                 {% if err_msg %}
                     <div class="alert alert-danger">

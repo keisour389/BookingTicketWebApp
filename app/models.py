@@ -66,6 +66,7 @@ class FlightSchedules(db.Model):
 
     flightSchedulesID = Column(String(30), primary_key=True)
     flightDateTime = Column(DateTime, nullable=False)
+    flightReturnDateTime = Column(DateTime, nullable=False)
     flightTotalTime = Column(Float, nullable=False)
     firstClassAmount = Column(Integer, nullable=False)
     secondClassAmount = Column(Integer, nullable=False)
@@ -155,6 +156,27 @@ class EmployeeModelView(ModelView):
 class AirportModelView(ModelView):
     column_display_pk = True  # Cho tạo khóa
     can_create = True
+    form_columns = ('airportID', 'name', 'runway', 'airportType', 'address',
+                    'note')
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+
+class FlightSchedulesModelView(ModelView):
+    column_display_pk = True  # Cho tạo khóa
+    can_create = True
+    form_columns = ('flightSchedulesID',
+                    'flightDateTime',
+                    'flightReturnDateTime',
+                    'flightTotalTime',
+                    'firstClassAmount',
+                    'secondClassAmount',
+                    'firstClassPrice',
+                    'secondClassPrice',
+                    'airportToTakeOff',
+                    'airportToLanding'
+                    )
 
     def is_accessible(self):
         return current_user.is_authenticated
@@ -184,6 +206,7 @@ class ReportView(BaseView):
 admin.add_view(EmployeeModelView(Employee, db.session))
 admin.add_view(BookingDetailsModelView(BookingDetails, db.session))
 admin.add_view(AirportModelView(Airport, db.session))
+admin.add_view(FlightSchedulesModelView(FlightSchedules, db.session))
 admin.add_view(LogoutView(name="Logout"))
 admin.add_view(ReportView(name="Create report"))
 # Câu lệnh tạo bảng dưới database
