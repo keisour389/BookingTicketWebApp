@@ -11,7 +11,6 @@
 {% endblock %}
 {% block content  %}
     <div class="container">
-        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search">
         <table class='table table-bordered'>
             <thead>
                 <tr>
@@ -27,42 +26,42 @@
                 </tr>
             </thead>
             <tbody>
-                {% if data %}
-                    {% for data in result%}
+                {% if result %}
+                    {% for data in result %}
                     <tr>
                         <td>
-                            {{ result.bookingID }}
+                            {{ data.ticketID }}
                         </td>
                         <td>
-                            {{ result.identityCard }}
+                            {{ data.identityCard }}
                         </td>
                         <td>
-                            {{ result.phoneNumber }}
+                            {{ data.phoneNumber }}
                         </td>
                         <td>
-                            {{ result.ticketClass }}
+                            {{ data.ticketClass }}
                         </td>
                         <td>
-                            {{ result.price }}
+                            {{ data.price }}
                         </td>
                         <td>
-                            {{ result.note }}
+                            {{ data.note }}
                         </td>
                         <td>
-                            {{ result.flightSchedulesID }}
+                            {{ data.flightSchedulesID }}
                         </td>
                         <td>
-                            {{ result.customerID }}
+                            {{ data.customerID }}
                         </td>
                         <td>
-                            {{ result.employeeID }}
+                            {{ data.employeeID }}
                         </td>
                     </tr>
                     {% endfor %}
                 {% else %}
                     <tr>
                         <td colspan="9">
-                            Không có dữ liệu
+                           Không có dữ liệu
                         </td>
                     </tr>
                 {% endif %}

@@ -96,7 +96,7 @@ class Ticket(db.Model):
     employeeID = Column(String(20), ForeignKey(Employee.userName), nullable=True)
 
 
-class BookingDetails(db.Model):
+class Booking(db.Model):
     __tablename__ = "bookingdetails"
 
     bookingID = Column(Integer, primary_key=True, autoincrement=True)  # Khóa chính tự động tăng
@@ -133,7 +133,7 @@ intermediary_airport = db.Table('intermediary_airport',
 #     totalTimeToStop = Column(Float, nullable=False)
 #     note = Column(String(255), nullable=True)
 
-class BookingDetailsModelView(ModelView):
+class BookingModelView(ModelView):
     column_display_pk = False  # Cho tạo khóa
     can_create = False
     form_columns = ('bookingID', 'identityCard', 'phoneNumber', 'ticketClass', 'price',
@@ -204,7 +204,7 @@ class ReportView(BaseView):
 # Thêm cái view vào
 # Trước khi create lại db phải tắt cái admin
 admin.add_view(EmployeeModelView(Employee, db.session))
-admin.add_view(BookingDetailsModelView(BookingDetails, db.session))
+admin.add_view(BookingModelView(Booking, db.session))
 admin.add_view(AirportModelView(Airport, db.session))
 admin.add_view(FlightSchedulesModelView(FlightSchedules, db.session))
 admin.add_view(LogoutView(name="Logout"))

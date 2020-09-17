@@ -197,7 +197,7 @@ def export_report():
 
 @app.route("/bookinghistory")
 def bookinghistory():
-    result = BookingDetails.query.filter(BookingDetails.customerID == session.get("cus")).first()
+    result = Ticket.query.filter(Ticket.customerID == session.get("cus"))
     return render_template("bookinghistory/bookinghistory.html", result=result)
 
 
