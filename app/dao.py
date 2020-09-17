@@ -76,7 +76,7 @@ def validate_user_emp(username, password):
 
 
 def get_bookingdetails():
-    data = BookingDetails.query.all()
+    data = Booking.query.all()
     if data:
         return data
     else:
