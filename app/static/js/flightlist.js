@@ -116,3 +116,23 @@ function chooseTicketType() {
         document.getElementById("price").innerHTML = document.getElementById("second-class-price").innerHTML;
     }
 }
+function getFlightSchedule(flightSchedulesID, firstClassPrice, secondClassPrice, airportToTakeOff, airportToLanding,
+            flightDateTime, flightTotalTime, firstClassAmount, secondClassAmount) {
+            console.log("flightSchedulesID " + flightSchedulesID);
+            document.getElementById("flight-schedule-ID").innerHTML = flightSchedulesID;
+            document.getElementById("flight-schedule-name").innerHTML = airportToTakeOff + " - " + airportToLanding;
+            document.getElementById("first-class-ticket").innerHTML = firstClassAmount;
+            document.getElementById("second-class-ticket").innerHTML = secondClassAmount;
+            document.getElementById("first-class-price").innerHTML = firstClassPrice + " VNĐ";
+            document.getElementById("second-class-price").innerHTML = secondClassPrice + " VNĐ";
+            //Giá tiền của khách hàng
+            var value = document.getElementById("customerTicketType").value;
+            if (value == 1) {
+              //Bằng giá tiền hạng nhất
+              document.getElementById("price").innerHTML = document.getElementById("first-class-price").innerHTML;
+            }
+            else {
+              //Bằng giá tiền hạng nhất
+              document.getElementById("price").innerHTML = document.getElementById("second-class-price").innerHTML;
+            }
+          }

@@ -25,28 +25,6 @@
         </tr>
       </thead>
       <tbody>
-        <script type="text/javascript">
-          function getFlightSchedule(flightSchedulesID, firstClassPrice, secondClassPrice, airportToTakeOff, airportToLanding,
-            flightDateTime, flightTotalTime, firstClassAmount, secondClassAmount) {
-            console.log("flightSchedulesID " + flightSchedulesID);
-            document.getElementById("flight-schedule-ID").innerHTML = flightSchedulesID;
-            document.getElementById("flight-schedule-name").innerHTML = airportToTakeOff + " - " + airportToLanding;
-            document.getElementById("first-class-ticket").innerHTML = firstClassAmount;
-            document.getElementById("second-class-ticket").innerHTML = secondClassAmount;
-            document.getElementById("first-class-price").innerHTML = firstClassPrice + " VNĐ";
-            document.getElementById("second-class-price").innerHTML = secondClassPrice + " VNĐ";
-            //Giá tiền của khách hàng
-            var value = document.getElementById("customerTicketType").value;
-            if (value == 1) {
-              //Bằng giá tiền hạng nhất
-              document.getElementById("price").innerHTML = document.getElementById("first-class-price").innerHTML;
-            }
-            else {
-              //Bằng giá tiền hạng nhất
-              document.getElementById("price").innerHTML = document.getElementById("second-class-price").innerHTML;
-            }
-          }
-        </script>
         {% for data in flightList%}
         <tr>
           <td>
@@ -66,11 +44,17 @@
           </td>
           <td>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#buyTicketModal"
-              onclick='getFlightSchedule({{data.flightSchedulesID}}, {{data.firstClassPrice}}, {{data.secondClassPrice}}, "{{data.airportToTakeOff}}", "{{data.airportToLanding}}"
-            ,"{{data.flightDateTime}}", {{data.flightTotalTime}}, {{data.firstClassAmount}}, {{data.secondClassAmount}})'>
+              onclick="getFlightSchedule( {{ data.flightSchedulesID }},
+                                          {{ data.firstClassPrice }},
+                                          {{ data.secondClassPrice }},
+                                          {{ data.airportToTakeOff }},
+                                          {{ data.airportToLanding }},
+                                          {{ data.flightDateTime }},
+                                          {{ data.flightTotalTime }},
+                                          {{ data.firstClassAmount }},
+                                          {{ data.secondClassAmount }} )">
               Mua vé
             </button>
-            <!--                        <button type="button" class="btn btn-primary" onclick="showModal($event)">Mua vé</button>-->
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#bookingTicketModal">
               Đặt vé
             </button>
